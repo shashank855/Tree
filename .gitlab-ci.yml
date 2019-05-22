@@ -1,0 +1,102 @@
+## Define the stages & order of execution
+
+stages:
+  - CLUSTER-SETUP
+  - OPENEBS-UPGRADE
+  - FUNCTIONAL
+  - CHAOS
+  - CLEANUP
+
+5MVN-OpenShift-3.10:
+  image: openebs/openshift-ci:latest
+  stage: CLUSTER-SETUP
+  script:     
+    - echo hi
+
+KJV1-Openebs-upgrade:
+  image: openebs/openshift-ci:latest
+  stage: OPENEBS-UPGRADE
+  script: 
+    - echo hi
+# X404-OpenEBS-v0.8.1:
+#   image: openebs/openshift-ci:latest
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 775 ./Openshift-EE/pipelines/GitLab/stages/2-setup/X404-openebs-deploy/deploy-openebs
+#     - ./Openshift-EE/pipelines/GitLab/stages/2-setup/X404-openebs-deploy/deploy-openebs
+
+# KJV1-OpenEBS-POLICIES:
+#   image: openebs/openshift-ci:latest
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 775 ./Openshift-EE/pipelines/GitLab/stages/2-setup/KJV1-storage-policies/openebs-sc
+#     - ./Openshift-EE/pipelines/GitLab/stages/2-setup/KJV1-storage-policies/openebs-sc
+  
+# OD9K-CSTOR-POOL:
+#   image: openebs/openshift-ci:latest
+#   stage: OPENEBS-SETUP
+#   script:
+#     - chmod 775 ./Openshift-EE/pipelines/GitLab/stages/2-setup/OD9K-create-striped-pool/create-pool
+#     - ./Openshift-EE/pipelines/GitLab/stages/2-setup/OD9K-create-striped-pool/create-pool
+    
+.func_test_template:
+  image: openebs/openshift-ci:latest
+  stage: FUNCTIONAL
+  when: always
+  dependencies:
+    - 5MVN-OpenShift-3.10
+     
+BQKZ-GitLab-Unicorn-Scale:
+  extends: .func_test_template
+  script: 
+    - echo hi
+
+.chaos_test_template:
+  image: openebs/openshift-ci:latest
+  stage: CHAOS
+  when: always
+
+XMSV-Unicorn-App-Kill:
+  extends: .chaos_test_template
+  script: 
+    - echo hi
+
+BWE5-cstor-pool-kill:
+  extends: .chaos_test_template   
+  script: 
+    - echo hi
+
+N2QR-cStor-Pool-Delete:
+  extends: .chaos_test_template
+  script:
+    - echo hi
+
+L7JN-prometheus-target-kill:
+  extends: .chaos_test_template
+  script:
+    - echo hi
+
+
+FEIN-postgres-target-kill:
+  extends: .chaos_test_template
+  script:
+    - echo hi
+
+Y5E0-minio-target-kill:
+  extends: .chaos_test_template
+  script:
+    - echo hi
+
+B0P0-redis-target-kill:
+  extends: .chaos_test_template
+  script:
+    - echo hi    
+
+
+LSCQ-Job-Cleanup:
+  image: openebs/openshift-ci:latest
+  stage: CLEANUP
+  when: always
+  script:
+    - echo hi
+  
