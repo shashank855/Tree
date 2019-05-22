@@ -13,11 +13,11 @@ stages:
   script:     
     - echo hi
 
-KJV1-Openebs-upgrade:
-  image: openebs/openshift-ci:latest
-  stage: OPENEBS-UPGRADE
-  script: 
-    - echo hi
+# KJV1-Openebs-upgrade:
+#   image: openebs/openshift-ci:latest
+#   stage: OPENEBS-UPGRADE
+#   script: 
+#     - echo hi
 # X404-OpenEBS-v0.8.1:
 #   image: openebs/openshift-ci:latest
 #   stage: OPENEBS-SETUP
